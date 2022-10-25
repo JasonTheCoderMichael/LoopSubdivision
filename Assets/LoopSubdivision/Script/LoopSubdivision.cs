@@ -13,11 +13,13 @@ namespace LoopSubdivision
         private GizmosVertex m_oldVerticeGizmos;
         private GizmosVertex m_newVerticeGizmos;
         private int m_loopCount = 1;    // Loop 细分迭代次数 //
+        private Mesh m_lastMesh;
         
         void Start()
         {
             m_oldVerticeGizmos = new GizmosVertex();
             m_newVerticeGizmos = new GizmosVertex();
+            m_lastMesh = mesh;
             if (showCase != null)
             {
                 showCase.SetBooth(mesh, ShowCase.EShowType.Origin);
@@ -41,6 +43,18 @@ namespace LoopSubdivision
                     {
                         showCase.SetBooth(targetMesh, (ShowCase.EShowType)loopNum);
                     }   
+                }
+            }
+        }
+
+        private void OnValidate()
+        {
+            if(mesh != m_lastMesh)
+            {
+                m_lastMesh = mesh;
+                if (showCase != null)
+                {
+                    showCase.SetBooth(mesh, ShowCase.EShowType.Origin);
                 }
             }
         }
